@@ -1,0 +1,21 @@
+{% extends 'main_app/primary/base.html'%}
+{% block title%}Home{% endblock %}
+{% load crispy_forms_tags %}
+
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="welcome-container">
+                    <h1 class="display-4">Welcome to the divorce prediction system </h1>
+                    <p class="lead">Thank you for visiting our site. We can check the possibility of divorce in your relationships! </p>
+                    <a href="{% url 'dps' %}" class="btn btn-primary btn-lg">Use the Divorce prediction system</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

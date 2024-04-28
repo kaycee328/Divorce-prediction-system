@@ -1,0 +1,13 @@
+{% load static %}
+<header class="navbar navbar-light sticky-top bg-light flex-md-nowrap p-1 shadow">
+    <img src="{% static 'main_app/images/wedding-rings-152336_1280.png' %}" alt="logo" srcset="" class="logo">
+    <a class="navbar-brand col-md-3 col-lg-3 me-0 px-3 mr-1" href="{% url 'homepage' %}">DIVORCE PREDICTION SYSTEM</a>
+
+    <div class="form-control-plaintext w-80 hidden text-center animate"><em><span class="text-uppercase fw-bold">{{request.user}}</span>, Welcome to the divorce prediction system!!</em></div>
+    
+    <div class="navbar-nav">
+        <div class="nav-item text-nowrap">
+            <button type="button" class="nav-link px-3" data-bs-toggle="modal" data-bs-target="#logoutModal">Sign out</button>
+        </div>
+    </div>
+</header>

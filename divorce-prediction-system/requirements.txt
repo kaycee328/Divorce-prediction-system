@@ -1,0 +1,6 @@
+django-crispy-forms
+crispy-bootstrap5
+pandas
+numpy
+scikit-learn
+pillow

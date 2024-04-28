@@ -1,0 +1,26 @@
+{% extends 'main_app/primary/base.html'%}
+{% block title%}Prediction page{% endblock %}
+{% load crispy_forms_tags %}
+
+
+{% block navbar %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="container-fluid">
+        <form action="" method="post" class="">
+            {% csrf_token %}
+            <h1 class="welcome">
+                Welcome to the divorce prediction system, <br> fill the form below from values 0-4 <br>(0 = No, 1 = Seldom, 2 = Averagely, 3 = Frequently, 4 = Yes)
+            </h1>
+            <fieldset class="form-group h3 font-weight-normal">
+                <legend class="mb-0">
+                    {{count}}{{ form|crispy }}
+                </legend>
+            </fieldset>
+            <div class="form-group">
+                <button type="submit" value = "update" class="d-block btn btn-lg action-btn mt-4 w-20 mx-auto" id="btn">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
