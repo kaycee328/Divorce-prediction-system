@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "main",
     "users",
     "api",
+    "prototype",
 ]
 
 MIDDLEWARE = [

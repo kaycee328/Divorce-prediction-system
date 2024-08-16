@@ -28,3 +28,33 @@ class DpsView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         # Save the object with the logged-in user
         serializer.save(user=self.request.user)
+
+
+from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+
+def create_dps_model():
+    attrs = {
+        "user": models.OneToOneField(User, on_delete=models.CASCADE),
+        "date": models.DateTimeField(auto_now_add=True),
+        "divorce_status": models.BooleanField(default=False, null=True),
+    }
+
+    # Dynamically add n1 to n52 fields
+    for i in range(1, 53):
+        attrs[f"n{i}"] = models.IntegerField(
+            validators=[MinValueValidator(0), MaxValueValidator(4)],
+            error_messages={
+                "min_value": "The value must be within the range of 0-4",
+                "max_value": "The value must be within the range of 0-4",
+                "invalid": "Please enter a valid integer.",
+            },
+        )
+
+    # Use type() to create the model class
+    return type("DPS", (models.Model,), attrs)
+
+
+# Create the DPS model class
+DPS = create_dps_model()
