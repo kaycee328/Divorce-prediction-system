@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "debug_toolbar",
     "crispy_bootstrap5",
+    "rest_framework",
     # my apps
     "main",
     "users",
@@ -132,3 +133,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+# REST_FRAMEWORK = {
+#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+# }

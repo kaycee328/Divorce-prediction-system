@@ -6,3 +6,4 @@ scikit-learn
 pillow
 django
 djangorestframework
+django-debug-toolbar
