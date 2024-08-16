@@ -23,9 +23,9 @@ class DpsSerializer(serializers.ModelSerializer):
 
     def get_username(self, obj):
         if isinstance(obj, Divorce):
-            # user = self.context.get("request").user.username
-            user = obj.user.username
-            print(user)
+            user = self.context.get("request").user.username
+            # user = obj.user.username
+            # print(user)
             return user
         return None
 
@@ -38,3 +38,9 @@ class DpsSerializer(serializers.ModelSerializer):
                     {field_name: "The value must be between 0 and 4."}
                 )
         return data
+
+    def create(self, validated_data):
+        # Automatically assign the logged-in user
+        validated_data["user"] = self.context["request"].user
+        # print(validated_data)
+        return super().create(validated_data)
