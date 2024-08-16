@@ -26,16 +26,5 @@ class DpsView(generics.ListCreateAPIView):
         decision_tree_model.fit(x_train, y_train)
 
     def perform_create(self, serializer):
-        # Print the validated data to the console (for debugging)
-        print(serializer.validated_data)
-
-        # Get the title and content from the validated data
-        user = serializer.validated_data.get("user")
-        print(user)
-
-        # If user is not provided, generate default user
-        if user is None:
-            user = self.request.user
-
-        # Save the object with the provided or generated user
-        serializer.save(user=user)
+        # Save the object with the logged-in user
+        serializer.save(user=self.request.user)
