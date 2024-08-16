@@ -39,8 +39,8 @@ class DpsSerializer(serializers.ModelSerializer):
                 )
         return data
 
-    def create(self, validated_data):
-        # Automatically assign the logged-in user
-        validated_data["user"] = self.context["request"].user
-        # print(validated_data)
-        return super().create(validated_data)
+    # def create(self, validated_data):
+    #     # Automatically assign the logged-in user
+    #     validated_data["user"] = self.context["request"].user
+    #     # print(validated_data)
+    #     return super().create(validated_data)
