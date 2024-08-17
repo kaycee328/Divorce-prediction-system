@@ -539,7 +539,7 @@ class DPS(models.Model):
     )
 
     class Meta:
-        ordering = ["-date"]
+        ordering = ["pk", "-date"]
 
     def __str__(self):
         user = self.user
