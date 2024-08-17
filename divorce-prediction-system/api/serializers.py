@@ -11,7 +11,7 @@ class DpsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DPS
-        fields = ["username", "divorced"] + [f"n{i}" for i in range(1, 53)]
+        fields = ["pk", "username", "divorced"] + [f"n{i}" for i in range(1, 53)]
 
     # def create(self, validated_data):
     #     # Automatically set the 'user' field to the currently logged-in user
