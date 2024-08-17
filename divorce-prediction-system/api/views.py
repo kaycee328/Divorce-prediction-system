@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework import generics, status
 from sklearn.model_selection import train_test_split
@@ -11,80 +12,58 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework.views import APIView
 
 
-class DpsView(APIView):
-    # def get_queryset(self):
-    # user = self.request.user
-    # # Assuming you have a method `is_notadmin()` on the user model
-    # return DPS.all()
-
+class DpsView(IsAuthenticated, APIView):
     def get(self, request, format=None):
-        # qs = self.get_queryset()
         qs = DPS.objects.all()
         serializer = DpsSerializer(qs, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        serializer = DpsSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        data = request.data
+
+        # Check if DPS entry for the user already exists
+        try:
+            dps = DPS.objects.get(user=user)
+            serializer = DpsSerializer(dps, data=data, partial=True)  # Partial update
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        # If no DPS entry exists, create a new one
+        except DPS.DoesNotExist:
+            serializer = DpsSerializer(data=data)
+            if serializer.is_valid():
+                serializer.save(user=user)
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# from django.db import models
-# from django.core.validators import MinValueValidator, MaxValueValidator
+class DpsView2(generics.ListCreateAPIView):
+    serializer_class = DpsSerializer
+    queryset = DPS.objects.all()
+    permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        mainqs = super().get_queryset()
+        user = self.request.user
+        return DPS.objects.filter(user=user)
 
-# def create_dps_model():
-#     attrs = {
-#         "user": models.OneToOneField(User, on_delete=models.CASCADE),
-#         "date": models.DateTimeField(auto_now_add=True),
-#         "divorce_status": models.BooleanField(default=False, null=True),
-#     }
+    def list(self, request):
+        # Note the use of `get_queryset()` instead of `self.queryset`
+        query_set = self.get_queryset()
+        serializer = DpsSerializer(query_set, many=True)
+        Response(serializer.data)
 
-#     # Dynamically add n1 to n52 fields
-#     for i in range(1, 53):
-#         attrs[f"n{i}"] = models.IntegerField(
-#             validators=[MinValueValidator(0), MaxValueValidator(4)],
-#             error_messages={
-#                 "min_value": "The value must be within the range of 0-4",
-#                 "max_value": "The value must be within the range of 0-4",
-#                 "invalid": "Please enter a valid integer.",
-#             },
-#         )
+    def perform_create(self, serializer):
+        queryset = DPS.objects.filter(
+            user=self.request.user,
+        )
+        if queryset.exists():
+            raise ValidationError("You have already signed up")
+        serializer.save(user=self.request.user)
 
-#     # Use type() to create the model class
-#     return type("DPS", (models.Model,), attrs)
-
-
-# # Create the DPS model class
-# DPS = create_dps_model()
-#     if request.method == 'POST':
-#          # Delete any existing Divorce model associated with the current user
-#         delete_user_model = Divorce.objects.filter(user=request.user).delete()
-
-#         # Initialize a new Divorce model associated with the current user
-#         user_model = Divorce(user=request.user)
-
-#         # If no existing model was deleted, initialize a new one
-#         if not delete_user_model:
-#             user_model = Divorce(user=request.user)
-
-#         form = DivorcePredictionForm(request.POST)
-
-#         if form.is_valid():
-#             # Get input values from form
-#             vals = [form.cleaned_data[f'n{i}'] for i in range(1, 53)]
-
-#             # Populate Divorce model with input data
-#             for i, val in enumerate(vals, start=1):
-#                 attribute_name = f'n{i}'
-#                 setattr(user_model, attribute_name, val)
-
-#             # Make predictions and update the Divorce object
-#             predictions = decision_tree_model.predict([vals])
-#             user_model.divorce_status = predictions == 1
-#             user_model.save()
-
-#             # Redirect user to result page
-#             return redirect('result')
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        DPS(user=self.request.user, modified=instance)
