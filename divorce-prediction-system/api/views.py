@@ -41,7 +41,7 @@ class DpsView(permissions.IsAuthenticated, APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class DpsView2(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView):
+class DpsView2(generics.ListCreateAPIView):
     serializer_class = DpsSerializer
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = "pk"
@@ -67,7 +67,6 @@ class DpsView2(generics.ListCreateAPIView, generics.RetrieveUpdateDestroyAPIView
         x = dps_dataset.drop(columns="Divorce")
         y = dps_dataset["Divorce"]
         x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
-        # y = dps_dataset.drop(dps_dataset.iloc[:, 0:-1], axis=1)
 
         decision_tree_model = DecisionTreeClassifier()
         decision_tree_model.fit(x_train, y_train)
