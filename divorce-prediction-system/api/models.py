@@ -552,13 +552,13 @@ class DPS(models.Model):
 
         return f"Username: {str(user).upper()} || Divorce Status: {str(status).upper()}"
 
-    def save(self, *args, **kwargs):
-        # Perform your calculation here and set divorce_status
-        def some_calculation():
-            pass
+        # # def save(self, *args, **kwargs):
+        # #     # Perform your calculation here and set divorce_status
+        # #     def some_calculation():
+        # #         pass
 
-        # Example calculation:
-        self.divorce_status = self.some_calculation()
+        # # Example calculation:
+        # self.divorce_status = self.some_calculation()
 
-        # Call the parent class's save method to save the object to the database
-        super().save(*args, **kwargs)
+        # # Call the parent class's save method to save the object to the database
+        # super().save(*args, **kwargs)
