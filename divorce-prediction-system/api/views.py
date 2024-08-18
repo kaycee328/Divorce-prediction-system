@@ -13,35 +13,7 @@ from rest_framework.views import APIView
 from rest_framework import authentication
 
 
-class DpsView(permissions.IsAuthenticated, APIView):
-    def get(self, request, format=None):
-        qs = DPS.objects.all()
-        serializer = DpsSerializer(qs, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        data = request.data
-
-        # Check if DPS entry for the user already exists
-        try:
-            dps = DPS.objects.get(user=user)
-            serializer = DpsSerializer(dps, data=data, partial=True)  # Partial update
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-        # If no DPS entry exists, create a new one
-        except DPS.DoesNotExist:
-            serializer = DpsSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save(user=user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class DpsView2(generics.ListCreateAPIView):
+class DpsView(generics.ListCreateAPIView):
     serializer_class = DpsSerializer
     permission_classes = [permissions.IsAuthenticated]
     lookup_field = "pk"
@@ -91,19 +63,3 @@ class DpsView2(generics.ListCreateAPIView):
         else:
             # When creating, only pass user ID or other serializable fields
             serializer.save(user=self.request.user, divorce_status=prediction)
-
-
-class DpsUpdateView(generics.UpdateAPIView):
-    serializer_class = DpsSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_superuser:
-            # Admins see all objects
-            return DPS.objects.all()
-        return DPS.objects.filter(user=user)
-
-    def perform_update(self, serializer):
-        # Custom logic can be added here if needed
-        serializer.save()
