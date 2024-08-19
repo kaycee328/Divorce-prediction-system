@@ -7,3 +7,4 @@ pillow
 django
 djangorestframework
 django-debug-toolbar
+django-cors-headers

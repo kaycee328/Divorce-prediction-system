@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "crispy_bootstrap5",
     "rest_framework",
+    "corsheaders",
     # my apps
     "main",
     "users",
@@ -38,6 +39,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -137,3 +140,9 @@ INTERNAL_IPS = [
 # REST_FRAMEWORK = {
 #     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
 # }
+
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:5173",  # Your React app's origin
+# ]
+
+CORS_ALLOW_ALL_ORIGINS = True
