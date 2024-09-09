@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "main",
     "users",
     "api",
+    "techwithtim",
     "prototype",
 ]
 
@@ -138,7 +139,10 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 # REST_FRAMEWORK = {
-#     "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+#     # "DEFAULT_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),
+#     # "DEFAULT_AUTHENTICATION_CLASSES": (
+#     #     "rest_framework_simplejwt.authentication.JWTAuthentication",
+#     # )
 # }
 
 # CORS_ALLOWED_ORIGINS = [
