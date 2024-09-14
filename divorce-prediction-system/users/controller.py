@@ -3,13 +3,12 @@ from rest_framework.response import Response
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
 from rest_framework.authentication import BasicAuthentication
-from .serializers import CreateUserSerializer
-from rest_framework.views import APIView
+from .serializers import CreateUserSerializer, LoginUserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.contrib.auth import authenticate
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 
+# Signup view for user login
 class SignupView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
@@ -17,27 +16,28 @@ class SignupView(generics.CreateAPIView):
     authentication_classes = [BasicAuthentication]  # Basic Authentication for API
 
 
-class LoginView(APIView):
-    def post(self, request, format=None):
-        username = request.data.get("username")
-        print(username)
-        password = request.data.get("password")
-        print(password)
-        user = authenticate(username=username, password=password)
+# Login view for user login
+class LoginView(generics.GenericAPIView):
+    serializer_class = LoginUserSerializer
 
-        if user is not None:
-            refresh = RefreshToken.for_user(user)
-            return Response(
-                {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                    "user_id": user.id,
-                    "username": user.username,
-                },
-                status=status.HTTP_200_OK,
-            )
+    def post(self, request, format=None):
+        # Use the serializer to validate the request data
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        # Retrieve the validated user from the serializer
+        user = serializer.validated_data["user"]
+
+        # Generate refresh and access tokens
+        refresh = RefreshToken.for_user(user)
         return Response(
-            {"error": "Invalid Credentials"}, status=status.HTTP_400_BAD_REQUEST
+            {
+                "username": user.username,
+                "user_id": user.id,
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+            },
+            status=status.HTTP_200_OK,
         )
 
 
