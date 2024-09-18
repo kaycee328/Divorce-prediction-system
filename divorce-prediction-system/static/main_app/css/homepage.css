@@ -1,104 +1,103 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 @keyframes blink {
-    0% { 
-        opacity: 1; 
-    }
-    50% { 
-        opacity: 0; 
-    }
-    100% { 
-        opacity: 1;
-     }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
-body{
-    overflow-x: hidden;
-    padding: 0;
+body {
+  overflow-x: hidden;
+  padding: 0;
 }
 
-header{
-    width: 100%;
+header {
+  width: 100%;
 }
 
-ul li{
-    font-size: 1rem;
-    margin-bottom: 3px;
-    padding: 2px;
+ul li {
+  font-size: 1rem;
+  margin-bottom: 3px;
+  padding: 2px;
 }
 
-.bars{
-    padding-left: .5rem;
-    color: rgb(19, 19, 19);
+.bars {
+  padding-left: 0.5rem;
+  color: rgb(19, 19, 19);
 }
 
-.animate{
-    transition: all;
-    animation-duration: 2.3s;
-    animation-name: blink;
-    animation-iteration-count: infinite;
-    animation-fill-mode: both;
+.animate {
+  transition: all;
+  animation-duration: 2.3s;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
 }
-
 
 /* form styling for the dps form */
-.form-container{
-    max-height: 100%;
-    margin: 0 auto;
+.form-container {
+  max-height: 100%;
+  margin: 0 auto;
 }
 
-form{
-    margin: 3% auto;
-    padding: 1rem 1.5rem;
-    width: 80%;
-    box-shadow: 0 0 4px rgb(194, 194, 194);
+form {
+  margin: 3% auto;
+  padding: 1rem 1.5rem;
+  width: 80%;
+  box-shadow: 0 0 4px rgb(194, 194, 194);
 }
 
-div.mb-3{
-    display: flex;
-    justify-content: space-between;
+div.mb-3 {
+  display: flex;
+  justify-content: space-between;
 }
 
-.form-label{
-    font-size: 1.2rem;
-    width: 70%;
+.form-label {
+  font-size: 1.2rem;
+  width: 70%;
 }
 
-input[type=number]{
-    width: 5rem;
-    height: 3rem;
-    border: 0.3px solid rgba(0, 0, 0, 0.274);
+input[type="number"] {
+  width: 5rem;
+  height: 3rem;
+  border: 0.3px solid rgba(0, 0, 0, 0.274);
 }
 
-.action-btn{
-    background-color: rgb(65, 139, 145);
-    color: rgb(255, 255, 255);
-    box-shadow: 0 0 4px rgb(93, 130, 133);
-    border: rgb(64, 190, 221);
+.action-btn {
+  background-color: rgb(65, 139, 145);
+  color: rgb(255, 255, 255);
+  box-shadow: 0 0 4px rgb(93, 130, 133);
+  border: rgb(64, 190, 221);
 }
 
-.welcome{
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 1.3rem;
+.welcome {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.3rem;
 }
 
-.logo{
-    width: 50px;
-    height: 40px;
+.logo {
+  width: 50px;
+  height: 40px;
 }
 
 .welcome-container {
-    text-align: center;
-    padding: 50px 0;
+  text-align: center;
+  padding: 50px 0;
 }
 
-.active{
-    font-weight: 700;
-    font-size: 1.2rem;
-    background-color: rgb(206, 206, 206);
+.active {
+  font-weight: 700;
+  font-size: 1.2rem;
+  background-color: rgb(206, 206, 206);
 }

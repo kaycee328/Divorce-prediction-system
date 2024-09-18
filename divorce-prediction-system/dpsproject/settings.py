@@ -2,7 +2,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # Quick-start development settings - unsuitable for production
@@ -52,7 +52,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "dpsproject.urls"
-
+print("pppppppppppppp--------------------pppppppppppppppp")
+print(BASE_DIR)
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -78,7 +79,7 @@ WSGI_APPLICATION = "dpsproject.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": BASE_DIR + "/db.sqlite3",
     }
 }
 
@@ -117,10 +118,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
+# URL to access static files
+STATIC_URL = "/static/"
 
+# Directories where Django will look for additional static files
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
+# Directory where Django will collect all static files when running `collectstatic`
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "media/"
