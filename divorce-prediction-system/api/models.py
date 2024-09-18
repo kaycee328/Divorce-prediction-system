@@ -550,15 +550,4 @@ class DPS(models.Model):
         else:
             status = "Not Divorced"
 
-        return f"Username: {str(user).upper()} || Divorce Status: {str(status).upper()}"
-
-        # # def save(self, *args, **kwargs):
-        # #     # Perform your calculation here and set divorce_status
-        # #     def some_calculation():
-        # #         pass
-
-        # # Example calculation:
-        # self.divorce_status = self.some_calculation()
-
-        # # Call the parent class's save method to save the object to the database
-        # super().save(*args, **kwargs)
+        return f" DATE: {self.date.strftime('%Y-%m-%d %H:%M:%S')}, Username: {str(user).upper()} || Divorce Status: {str(status).upper()}"
