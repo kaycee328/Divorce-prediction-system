@@ -1,5 +1,3 @@
-from django.forms import ValidationError
-from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from rest_framework import generics, status
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
@@ -8,9 +6,8 @@ import pandas as pd
 from rest_framework import permissions
 from .models import DPS
 from rest_framework.response import Response
-from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from rest_framework.views import APIView
-from rest_framework import authentication
+import os
+from django.conf import settings
 
 
 class DpsView(generics.ListCreateAPIView):
@@ -34,7 +31,7 @@ class DpsView(generics.ListCreateAPIView):
 
     def perform_prediction(self, values):
         pd.set_option("display.max_columns", None)
-        dps_dataset = pd.read_csv("dps.csv")
+        dps_dataset = pd.read_csv(os.path.join(settings.BASE_DIR, "dps.csv"))
 
         x = dps_dataset.drop(columns="Divorce")
         y = dps_dataset["Divorce"]
