@@ -29,7 +29,7 @@ RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
 # Copy the project files
-COPY . /app/
+COPY . /app
 
 # Expose port 8000 for the Django application
 EXPOSE 8000
