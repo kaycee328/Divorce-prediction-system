@@ -1,8 +1,5 @@
 from rest_framework import serializers
 from .models import DPS
-from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
-import pandas as pd
 
 
 class DpsSerializer(serializers.ModelSerializer):
