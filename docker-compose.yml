@@ -2,3 +2,9 @@ name: dps-project
 
 services:
   app:
+    image: dps-image
+    container_name: dps-container
+    ports:
+      - "8001:8000"
+    volumes:
+      - .:/app
