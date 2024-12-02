@@ -5,8 +5,8 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('signup/', views.signupPage, name='signup'),
-    path('signin/', views.UserLogin.as_view(), name='signin'),
-    path('logout/', views.Logout_user.as_view(), name='signout'),
-
+    path("signup/", views.signupPage, name="signup1"),
+    path("signin/", views.UserLogin.as_view(), name="signin1"),
+    path("logout/", views.logout_view, name="signout1"),
+    # path("logout/", views.Logout_user.as_view(), name="signout1"),
 ]
