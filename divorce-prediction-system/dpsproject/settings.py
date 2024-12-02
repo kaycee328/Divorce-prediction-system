@@ -49,6 +49,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # Adding linkedin
 ]
 
 ROOT_URLCONF = "dpsproject.urls"
@@ -133,7 +134,7 @@ MEDIA_URL = "media/"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACK = "bootstrap5"
 LOGIN_REDIRECT_URL = "dps"
-LOGIN_URL = "signin"
+LOGIN_URL = "signin1"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -151,3 +152,27 @@ INTERNAL_IPS = [
 # ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+"""
+    FROM THIS POINT BELOW IS FOR LINKEDIN AUTHENTICATION
+"""
+
+INSTALLED_APPS += [
+    "social_django",  # Add to installed apps
+]
+
+MIDDLEWARE += [
+    "social_django.middleware.SocialAuthExceptionMiddleware",
+]
+
+SOCIAL_AUTH_PIPELINE = (
+    "social_core.pipeline.social_auth.social_details",
+    "social_core.pipeline.social_auth.social_uid",
+    "social_core.pipeline.social_auth.auth_allowed",
+    "social_core.pipeline.social_auth.social_user",
+    "social_core.pipeline.user.get_username",
+    "social_core.pipeline.user.create_user",
+    "social_core.pipeline.social_auth.associate_user",
+    "social_core.pipeline.social_auth.load_extra_data",
+    "social_core.pipeline.user.user_details",
+)
