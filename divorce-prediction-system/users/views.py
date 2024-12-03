@@ -27,7 +27,6 @@ def signupPage(request):
 # This view handles user login authentication
 class UserLogin(LoginView):
     template_name = "users_app/auth/signin.html"
-    fields = "__all__"
     redirect_authenticated_user = True
 
     def get_success_url(
