@@ -157,12 +157,24 @@ CORS_ALLOW_ALL_ORIGINS = True
     FROM THIS POINT BELOW IS FOR LINKEDIN AUTHENTICATION
 """
 
+SITE_ID = 1
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Optional, based on your needs
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
+
 INSTALLED_APPS += [
-    "social_django",  # Add to installed apps
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.linkedin_oauth2",
+    "dj_rest_auth",
+    "rest_framework.authtoken",
 ]
 
 MIDDLEWARE += [
     "social_django.middleware.SocialAuthExceptionMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 SOCIAL_AUTH_PIPELINE = (
@@ -176,3 +188,30 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.social_auth.load_extra_data",
     "social_core.pipeline.user.user_details",
 )
+
+SOCIAL_AUTH_LINKEDIN_OAUTH2_FIELD_SELECTORS = [
+    "id",
+    "first-name",
+    "last-name",
+    "email-address",
+]
+
+# LinkedIn OAuth credentials
+SOCIALACCOUNT_PROVIDERS = {
+    "linkedin_oauth2": {
+        "APP": {
+            "client_id": "774syucozphm0v",
+            "secret": "WPL_AP1.FGympepMcRzQr3cV.61paPg==",
+            "key": "",
+        },
+        "SCOPE": ["r_liteprofile", "r_emailaddress"],
+        "PROFILE_FIELDS": ["id", "first-name", "last-name", "email-address"],
+    }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",
+    ],
+}
