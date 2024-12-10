@@ -133,7 +133,8 @@ MEDIA_URL = "media/"
 
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 CRISPY_ALLOWED_TEMPLATE_PACK = "bootstrap5"
-LOGIN_REDIRECT_URL = "dps"
+# LOGIN_REDIRECT_URL = "dps"
+LOGIN_REDIRECT_URL = "http://localhost:8000/dj-rest-auth/linkedin/"
 LOGIN_URL = "signin1"
 
 # Default primary key field type
