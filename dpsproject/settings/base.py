@@ -204,7 +204,7 @@ SOCIALACCOUNT_PROVIDERS = {
     "linkedin_oauth2": {
         "APP": {
             "client_id": "774syucozphm0v",
-            "secret": "WPL_AP1.FGympepMcRzQr3cV.61paPg==",
+            "secret": os.getenv("LINKEDIN_SECRET", ""),
             "key": "",
         },
         "SCOPE": ["r_liteprofile", "r_emailaddress"],
