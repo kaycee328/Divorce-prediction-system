@@ -1,10 +1,90 @@
 name: dps-project
 
 services:
-  app:
-    image: dps-image
-    container_name: dps-container
-    ports:
-      - "8001:8000"
+  db:
+    image: postgres:latest
     volumes:
-      - .:/app
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: dps
+      POSTGRES_USER: dpsuser
+      POSTGRES_PASSWORD: dpspassword
+      POSTGRES_HOST: 172.93.52.240
+      POSTGRES_PORT: 5432
+    networks:
+      - my_network
+    ports:
+      - "5435:5432"
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    networks:
+      - my_network
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/ || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  
+  # celery:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   command: celery -A msdat.celery worker --loglevel=info
+  #   volumes:
+  #     - .:/usr/src/app
+  #   environment:
+  #     POSTGRES_DB: msdat2
+  #     POSTGRES_USER: msdatuser
+  #     POSTGRES_PASSWORD: msdatpassword
+  #     POSTGRES_HOST: 172.93.52.240
+  #     POSTGRES_PORT: 54352
+  #     CELERY_BROKER_URL: redis://redis:6379/0
+  #     CELERY_RESULT_BACKEND: redis://redis:6379/1
+  #   networks:
+  #     - my_network
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  
+    # healthcheck:
+    #   test: ["CMD-SHELL", "celery -A msdat.celery inspect ping || exit 1"]
+    #   interval: 30s
+    #   timeout: 10s
+    #   retries: 5
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - my_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
+networks:
+  my_network:
+    driver: bridge
+ 

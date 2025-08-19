@@ -1,4 +1,59 @@
-venv
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.pyc
+*.pyo
+*.pyd
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+ENV/
+
+# Django
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Pytest / Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+.pyre/
+
+# IDEs / Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# Environment variables
 .env
-.vscode
-sqlite3
+.env.local
+.env.*.local
+
+# Build / Packaging
+build/
+dist/
+*.egg-info/
+.eggs/
